@@ -1,7 +1,13 @@
 from database import Sector, PlayerCharacter, player_character, char_print, char_input
 from random import randint, choice
 from combat_loop import CombatLoop
-from event_behaviours import PositiveEvents, NegativeEvents, RoomSpecialEvents, ExploreSpecialEvents, RestSpecialEvents
+from event_behaviours import (
+    PositiveEvents,
+    NegativeEvents,
+    RoomSpecialEvents,
+    ExploreSpecialEvents,
+    RestSpecialEvents,
+)
 from inventory_loop import LootLoop, InventoryLoop
 from constants import SECTOR_INTRODUCTION_TEXT
 from time import sleep
@@ -12,7 +18,6 @@ sector = Sector()
 
 
 class ManageSector:
-
     def __init__(self):
         self.run_room_loop()
         global sector
@@ -24,7 +29,9 @@ class ManageSector:
         while previous_sector == sector.current_sector:
             sector.roll_sector()
         if not previous_sector:
-            char_print(f"\nThe daylight fades away behind you. You have entered the {sector.current_sector}.")
+            char_print(
+                f"\nThe daylight fades away behind you. You have entered the {sector.current_sector}."
+            )
             if sector.current_sector == "caves":
                 char_print(SECTOR_INTRODUCTION_TEXT.CAVES)
             elif sector.current_sector == "tombs":
@@ -34,7 +41,9 @@ class ManageSector:
             else:
                 char_print(SECTOR_INTRODUCTION_TEXT.SEWERS)
         else:
-            char_print(f"\nLeaving the {previous_sector} behind, you enter the {sector.current_sector}.")
+            char_print(
+                f"\nLeaving the {previous_sector} behind, you enter the {sector.current_sector}."
+            )
             if sector.current_sector == "caves":
                 char_print(SECTOR_INTRODUCTION_TEXT.CAVES)
             elif sector.current_sector == "tombs":
@@ -62,7 +71,6 @@ class ManageSector:
 
 
 class RoomLoop:
-
     def __init__(self):
         self.roll_room_encounter()
 
@@ -103,20 +111,28 @@ class RoomLoop:
     def prompt_room_decision(player: PlayerCharacter = player_character):
         time_available = True
         while time_available:
-            player_response = char_input(f"\nWhat would you like to do? (Open Inventory/Explore/Rest/View Stats/Keep Going): ", lower=True)
-            if player_response == 'open inventory':
+            player_response = char_input(
+                f"\nWhat would you like to do? (Open Inventory/Explore/Rest/View Stats/Keep Going): ",
+                lower=True,
+            )
+            if player_response == "open inventory":
                 InventoryLoop()
                 continue
-            elif player_response == 'view stats':
+            elif player_response == "view stats":
                 player.print_player_character_stats()
                 continue
             else:
-                if player_response == 'explore':
-                    possible_events = [LootLoop, CombatLoop, ExploreSpecialEvents,
-                                       PositiveEvents, NegativeEvents]
+                if player_response == "explore":
+                    possible_events = [
+                        LootLoop,
+                        CombatLoop,
+                        ExploreSpecialEvents,
+                        PositiveEvents,
+                        NegativeEvents,
+                    ]
                     choice(possible_events)()
                     time_available = False
-                elif player_response == 'rest':
+                elif player_response == "rest":
                     RestLoop()
                     time_available = False
                 else:
@@ -132,7 +148,6 @@ class RoomLoop:
 
 
 class RestLoop:
-
     def __init__(self):
         self._roll_event()
         self._rest_health_gain()
@@ -147,5 +162,7 @@ class RestLoop:
         rest_heal_amount = randint(1, 8)
         player.health += rest_heal_amount
         player.cap_health_at_max()
-        char_print(f"\nYou gain {rest_heal_amount} health from resting! You now have {player.health} out of a"
-                   f" maximum of {player.max_health} health.")
+        char_print(
+            f"\nYou gain {rest_heal_amount} health from resting! You now have {player.health} out of a"
+            f" maximum of {player.max_health} health."
+        )

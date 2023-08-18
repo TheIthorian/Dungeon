@@ -1,12 +1,23 @@
-from database import PlayerCharacter, PlayerInventory, Item, player_character, player_inventory, char_print, char_input
+from database import (
+    PlayerCharacter,
+    PlayerInventory,
+    Item,
+    player_character,
+    player_inventory,
+    char_print,
+    char_input,
+)
 
 
 class InventoryLoop:
-
     def __init__(self):
         self.open_inventory()
 
-    def open_inventory(self, inventory: PlayerInventory = player_inventory, player: PlayerCharacter = player_character):
+    def open_inventory(
+        self,
+        inventory: PlayerInventory = player_inventory,
+        player: PlayerCharacter = player_character,
+    ):
         inv_loop = True
         while inv_loop:
             if not inventory.current_equipment:
@@ -27,7 +38,9 @@ class InventoryLoop:
                     item_stats = f"(Healing: {item.health})"
                 char_print(f"{name}{equip_status}{item_stats}")
             inv_response = char_input(
-                "\nWhat would you like to do? (Equip, Unequip, Discard, View Stats, Go Back): ", lower=True)
+                "\nWhat would you like to do? (Equip, Unequip, Discard, View Stats, Go Back): ",
+                lower=True,
+            )
             if inv_response == "equip":
                 self.prompt_equip_item()
             elif inv_response == "unequip":
@@ -45,13 +58,19 @@ class InventoryLoop:
 
         if to_equip_name in inventory.current_equipment:
             to_equip = inventory.current_equipment[to_equip_name]
-            equipped_item_types = [item.type for item in inventory.current_equipment.values() if item.is_equipped]
+            equipped_item_types = [
+                item.type
+                for item in inventory.current_equipment.values()
+                if item.is_equipped
+            ]
 
             def equip_item():
                 if to_equip.is_equipped:
                     char_print(f"\nThe {to_equip_name} is already equipped.")
                 elif to_equip.type in equipped_item_types:
-                    char_print(f"\nYou must unequip other items of the same type first.")
+                    char_print(
+                        f"\nYou must unequip other items of the same type first."
+                    )
                 else:
                     to_equip.is_equipped = True
                     char_print(f"\nYou equip the {to_equip_name}.")
@@ -65,7 +84,9 @@ class InventoryLoop:
             char_print("\nItem not found.")
 
     def prompt_unequip_item(self, inventory: PlayerInventory = player_inventory):
-        to_unequip_name = char_input("\nWhat item would you like to unequip?: ", title=True)
+        to_unequip_name = char_input(
+            "\nWhat item would you like to unequip?: ", title=True
+        )
         if to_unequip_name in inventory.current_equipment:
             to_unequip = inventory.current_equipment[to_unequip_name]
 
@@ -84,7 +105,9 @@ class InventoryLoop:
 
     @staticmethod
     def prompt_discard_item(inventory: PlayerInventory = player_inventory):
-        to_discard_name = char_input("\nWhat item would you like to discard?: ", title=True)
+        to_discard_name = char_input(
+            "\nWhat item would you like to discard?: ", title=True
+        )
         if to_discard_name in inventory.current_equipment:
             to_discard = inventory.current_equipment[to_discard_name]
 
@@ -123,7 +146,6 @@ class InventoryLoop:
 
 
 class LootLoop:
-
     def __init__(self):
         self.loot = Item()
         self.generate_loot()
@@ -138,10 +160,10 @@ class LootLoop:
     def take_loot(self, inventory: PlayerInventory = player_inventory):
         char_print(f"\nYou take the {self.loot.name}.")
         if self.loot.name in inventory.current_equipment:
-            if ' i' in self.loot.name:
-                self.loot.name = self.loot.name + 'i'
+            if " i" in self.loot.name:
+                self.loot.name = self.loot.name + "i"
             else:
-                self.loot.name = self.loot.name + ' i'
+                self.loot.name = self.loot.name + " i"
         inventory.append_to_inventory(self.loot)
 
     def ignore_loot(self):
@@ -158,14 +180,16 @@ class LootLoop:
                 self.take_loot()
                 in_loop = False
                 break
-            loot_response = char_input(f"\nWhat would you like to do? (Take, Ignore, Inspect): ")
-            if loot_response.lower() == 'take':
+            loot_response = char_input(
+                f"\nWhat would you like to do? (Take, Ignore, Inspect): "
+            )
+            if loot_response.lower() == "take":
                 self.take_loot()
                 in_loop = False
-            elif loot_response.lower() == 'ignore':
+            elif loot_response.lower() == "ignore":
                 self.ignore_loot()
                 in_loop = False
-            elif loot_response.lower() == 'inspect':
+            elif loot_response.lower() == "inspect":
                 if not already_inspected:
                     self.loot.inspect_item()
                     already_inspected = True
@@ -173,8 +197,10 @@ class LootLoop:
                     char_print("\nYou've already inspected this item.")
             counter += 1
         if not in_loop:
-            open_inventory = char_input("\nWould you like to open your inventory? (Y/N): ").lower()
-            if open_inventory == 'y':
+            open_inventory = char_input(
+                "\nWould you like to open your inventory? (Y/N): "
+            ).lower()
+            if open_inventory == "y":
                 InventoryLoop()
             else:
                 char_print("\nTime to get going then.")

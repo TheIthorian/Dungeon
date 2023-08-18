@@ -1,13 +1,23 @@
 from dataclasses import dataclass
 from random import choices, choice, randint
-from constants import ENEMY_LISTS, SECTOR_LIST, SECTOR_WEIGHTS, ENEMY_NAMES, \
-    ADJECTIVES, ITEM_NAMES, ITEM_TYPES_LIST, WEAPON_INSPECT, ATTIRE_INSPECT, CONSUMABLE_INSPECT
+from constants import (
+    ENEMY_LISTS,
+    SECTOR_LIST,
+    SECTOR_WEIGHTS,
+    ENEMY_NAMES,
+    ADJECTIVES,
+    ITEM_NAMES,
+    ITEM_TYPES_LIST,
+    WEAPON_INSPECT,
+    ATTIRE_INSPECT,
+    CONSUMABLE_INSPECT,
+)
 from time import sleep
 
 
 def char_print(string):
     for character in string[:-1]:
-        print(character, end='', flush=True)
+        print(character, end="", flush=True)
         sleep(0.02)
     print(string[-1], flush=True)
     sleep(1)
@@ -15,7 +25,7 @@ def char_print(string):
 
 def char_input(string, title=False, lower=False):
     for character in string:
-        print(character, end='', flush=True)
+        print(character, end="", flush=True)
         sleep(0.02)
     sleep(1)
 
@@ -29,7 +39,7 @@ def char_input(string, title=False, lower=False):
 
 @dataclass
 class Sector:
-    current_sector: str = ''
+    current_sector: str = ""
     current_weights: tuple = (1, 1, 1)
 
     @staticmethod
@@ -38,7 +48,7 @@ class Sector:
             "caves": SECTOR_WEIGHTS.CAVES,
             "tombs": SECTOR_WEIGHTS.TOMBS,
             "sewers": SECTOR_WEIGHTS.SEWERS,
-            "dungeons": SECTOR_WEIGHTS.DUNGEONS
+            "dungeons": SECTOR_WEIGHTS.DUNGEONS,
         }
 
     def roll_sector(self):
@@ -51,18 +61,20 @@ sector = Sector()
 
 @dataclass
 class Enemy:
-    category: str = ''
-    size: str = ''
-    rarity: str = ''
-    name: str = ''
+    category: str = ""
+    size: str = ""
+    rarity: str = ""
+    name: str = ""
     health: int = 0
     atk: int = 0
     dmg: int = 0
 
     def _assign_enemy_type(self):
-        self.category = ''.join(choices(ENEMY_LISTS.CATEGORY_LIST, weights=Sector.current_weights))
-        self.size = ''.join(choices(ENEMY_LISTS.SIZE_LIST, weights=(3, 6, 1)))
-        self.rarity = ''.join(choices(ENEMY_LISTS.RARITY_LIST, weights=(16, 3, 1)))
+        self.category = "".join(
+            choices(ENEMY_LISTS.CATEGORY_LIST, weights=Sector.current_weights)
+        )
+        self.size = "".join(choices(ENEMY_LISTS.SIZE_LIST, weights=(3, 6, 1)))
+        self.rarity = "".join(choices(ENEMY_LISTS.RARITY_LIST, weights=(16, 3, 1)))
 
     @staticmethod
     def _get_name_group_dict():
@@ -75,7 +87,7 @@ class Enemy:
             "large humanoid": ENEMY_NAMES.LARGE_HUMANOID,
             "small undead": ENEMY_NAMES.SMALL_UNDEAD,
             "medium undead": ENEMY_NAMES.MEDIUM_UNDEAD,
-            "large undead": ENEMY_NAMES.LARGE_UNDEAD
+            "large undead": ENEMY_NAMES.LARGE_UNDEAD,
         }
 
     def _assign_name_to_enemy(self):
@@ -120,8 +132,8 @@ class Enemy:
 
 @dataclass
 class Item:
-    name: str = ''
-    type: str = ''
+    name: str = ""
+    type: str = ""
     health: int = 0
     atk: int = 0
     dmg: int = 0
@@ -130,27 +142,33 @@ class Item:
     is_equipped: bool = False
 
     def assign_item_type(self):
-        self.type = ''.join(choices(ITEM_TYPES_LIST, weights=(1, 1, 2)))
+        self.type = "".join(choices(ITEM_TYPES_LIST, weights=(1, 1, 2)))
 
     @staticmethod
     def _get_item_names_dict():
         return {
             "attire": ITEM_NAMES.ATTIRE_NAMES_LIST,
             "weapon": ITEM_NAMES.WEAPON_NAMES_LIST,
-            "consumable": ITEM_NAMES.CONSUMABLE_NAMES_LIST
+            "consumable": ITEM_NAMES.CONSUMABLE_NAMES_LIST,
         }
 
     def assign_item_name(self):
         self.name = choice(self._get_item_names_dict()[self.type])
 
     def assign_item_adjective(self):
-        adjective = ''
-        if self.type == 'attire':
-            adjective_dict = self._get_flavour_text_dictionaries()["attire_assign_adjective_dict"]
-        elif self.type == 'weapon':
-            adjective_dict = self._get_flavour_text_dictionaries()["weapon_assign_adjective_dict"]
+        adjective = ""
+        if self.type == "attire":
+            adjective_dict = self._get_flavour_text_dictionaries()[
+                "attire_assign_adjective_dict"
+            ]
+        elif self.type == "weapon":
+            adjective_dict = self._get_flavour_text_dictionaries()[
+                "weapon_assign_adjective_dict"
+            ]
         else:
-            adjective_dict = self._get_flavour_text_dictionaries()["consumable_assign_adjective_dict"]
+            adjective_dict = self._get_flavour_text_dictionaries()[
+                "consumable_assign_adjective_dict"
+            ]
 
         for key in adjective_dict:
             if key == (True, True) or key == True:
@@ -161,13 +179,19 @@ class Item:
             self.name = f"{adjective} {self.name}"
 
     def inspect_item(self):
-        flavour_text = ''
-        if self.type == 'attire':
-            inspect_dict = self._get_flavour_text_dictionaries()["attire_inspect_flavour_text_dict"]
-        elif self.type == 'weapon':
-            inspect_dict = self._get_flavour_text_dictionaries()["weapon_inspect_flavour_text_dict"]
+        flavour_text = ""
+        if self.type == "attire":
+            inspect_dict = self._get_flavour_text_dictionaries()[
+                "attire_inspect_flavour_text_dict"
+            ]
+        elif self.type == "weapon":
+            inspect_dict = self._get_flavour_text_dictionaries()[
+                "weapon_inspect_flavour_text_dict"
+            ]
         else:
-            inspect_dict = self._get_flavour_text_dictionaries()["consumable_inspect_flavour_text_dict"]
+            inspect_dict = self._get_flavour_text_dictionaries()[
+                "consumable_inspect_flavour_text_dict"
+            ]
 
         for key in inspect_dict:
             if key == (True, True) or key == True:
@@ -192,26 +216,80 @@ class Item:
         high_value = range(4, 11)
         dict_container: dict = {
             "weapon_inspect_flavour_text_dict": {
-                (self.atk in low_value, self.dmg in low_value): WEAPON_INSPECT.LOW_ATTACK_LOW_DMG,
-                (self.atk in low_value, self.dmg in med_value): WEAPON_INSPECT.LOW_ATTACK_MED_DMG,
-                (self.atk in low_value, self.dmg in high_value): WEAPON_INSPECT.LOW_ATTACK_HIGH_DMG,
-                (self.atk in med_value, self.dmg in low_value): WEAPON_INSPECT.MED_ATTACK_LOW_DMG,
-                (self.atk in med_value, self.dmg in med_value): WEAPON_INSPECT.MED_ATTACK_MED_DMG,
-                (self.atk in med_value, self.dmg in high_value): WEAPON_INSPECT.MED_ATTACK_HIGH_DMG,
-                (self.atk in high_value, self.dmg in low_value): WEAPON_INSPECT.HIGH_ATTACK_LOW_DMG,
-                (self.atk in high_value, self.dmg in med_value): WEAPON_INSPECT.HIGH_ATTACK_MED_DMG,
-                (self.atk in high_value, self.dmg in high_value): WEAPON_INSPECT.HIGH_ATTACK_HIGH_DMG,
+                (
+                    self.atk in low_value,
+                    self.dmg in low_value,
+                ): WEAPON_INSPECT.LOW_ATTACK_LOW_DMG,
+                (
+                    self.atk in low_value,
+                    self.dmg in med_value,
+                ): WEAPON_INSPECT.LOW_ATTACK_MED_DMG,
+                (
+                    self.atk in low_value,
+                    self.dmg in high_value,
+                ): WEAPON_INSPECT.LOW_ATTACK_HIGH_DMG,
+                (
+                    self.atk in med_value,
+                    self.dmg in low_value,
+                ): WEAPON_INSPECT.MED_ATTACK_LOW_DMG,
+                (
+                    self.atk in med_value,
+                    self.dmg in med_value,
+                ): WEAPON_INSPECT.MED_ATTACK_MED_DMG,
+                (
+                    self.atk in med_value,
+                    self.dmg in high_value,
+                ): WEAPON_INSPECT.MED_ATTACK_HIGH_DMG,
+                (
+                    self.atk in high_value,
+                    self.dmg in low_value,
+                ): WEAPON_INSPECT.HIGH_ATTACK_LOW_DMG,
+                (
+                    self.atk in high_value,
+                    self.dmg in med_value,
+                ): WEAPON_INSPECT.HIGH_ATTACK_MED_DMG,
+                (
+                    self.atk in high_value,
+                    self.dmg in high_value,
+                ): WEAPON_INSPECT.HIGH_ATTACK_HIGH_DMG,
             },
             "attire_inspect_flavour_text_dict": {
-                (self.dfc in low_value, self.psd in low_value): ATTIRE_INSPECT.LOW_DEFENCE_LOW_PERSUADE,
-                (self.dfc in low_value, self.psd in med_value): ATTIRE_INSPECT.LOW_DEFENCE_MED_PERSUADE,
-                (self.dfc in low_value, self.psd in high_value): ATTIRE_INSPECT.LOW_DEFENCE_HIGH_PERSUADE,
-                (self.dfc in med_value, self.psd in low_value): ATTIRE_INSPECT.MED_DEFENCE_LOW_PERSUADE,
-                (self.dfc in med_value, self.psd in med_value): ATTIRE_INSPECT.MED_DEFENCE_MED_PERSUADE,
-                (self.dfc in med_value, self.psd in high_value): ATTIRE_INSPECT.MED_DEFENCE_HIGH_PERSUADE,
-                (self.dfc in high_value, self.psd in low_value): ATTIRE_INSPECT.HIGH_DEFENCE_LOW_PERSUADE,
-                (self.dfc in high_value, self.psd in med_value): ATTIRE_INSPECT.HIGH_DEFENCE_MED_PERSUADE,
-                (self.dfc in high_value, self.psd in high_value): ATTIRE_INSPECT.HIGH_DEFENCE_HIGH_PERSUADE,
+                (
+                    self.dfc in low_value,
+                    self.psd in low_value,
+                ): ATTIRE_INSPECT.LOW_DEFENCE_LOW_PERSUADE,
+                (
+                    self.dfc in low_value,
+                    self.psd in med_value,
+                ): ATTIRE_INSPECT.LOW_DEFENCE_MED_PERSUADE,
+                (
+                    self.dfc in low_value,
+                    self.psd in high_value,
+                ): ATTIRE_INSPECT.LOW_DEFENCE_HIGH_PERSUADE,
+                (
+                    self.dfc in med_value,
+                    self.psd in low_value,
+                ): ATTIRE_INSPECT.MED_DEFENCE_LOW_PERSUADE,
+                (
+                    self.dfc in med_value,
+                    self.psd in med_value,
+                ): ATTIRE_INSPECT.MED_DEFENCE_MED_PERSUADE,
+                (
+                    self.dfc in med_value,
+                    self.psd in high_value,
+                ): ATTIRE_INSPECT.MED_DEFENCE_HIGH_PERSUADE,
+                (
+                    self.dfc in high_value,
+                    self.psd in low_value,
+                ): ATTIRE_INSPECT.HIGH_DEFENCE_LOW_PERSUADE,
+                (
+                    self.dfc in high_value,
+                    self.psd in med_value,
+                ): ATTIRE_INSPECT.HIGH_DEFENCE_MED_PERSUADE,
+                (
+                    self.dfc in high_value,
+                    self.psd in high_value,
+                ): ATTIRE_INSPECT.HIGH_DEFENCE_HIGH_PERSUADE,
             },
             "consumable_inspect_flavour_text_dict": {
                 (self.health in low_value): CONSUMABLE_INSPECT.LOW_HEALTH,
@@ -219,28 +297,56 @@ class Item:
                 (self.health in high_value): CONSUMABLE_INSPECT.HIGH_HEALTH,
             },
             "attire_assign_adjective_dict": {
-                (self.dfc in low_value, self.psd in low_value): ADJECTIVES.ATTIRE_ADJECTIVES["low_psd_low_dfc"],
-                (self.dfc in low_value, self.psd in high_value): ADJECTIVES.ATTIRE_ADJECTIVES["high_psd_low_dfc"],
-                (self.dfc in high_value, self.psd in low_value): ADJECTIVES.ATTIRE_ADJECTIVES["low_psd_high_dfc"],
-                (self.dfc in high_value, self.psd in high_value): ADJECTIVES.ATTIRE_ADJECTIVES["high_psd_high_dfc"],
+                (
+                    self.dfc in low_value,
+                    self.psd in low_value,
+                ): ADJECTIVES.ATTIRE_ADJECTIVES["low_psd_low_dfc"],
+                (
+                    self.dfc in low_value,
+                    self.psd in high_value,
+                ): ADJECTIVES.ATTIRE_ADJECTIVES["high_psd_low_dfc"],
+                (
+                    self.dfc in high_value,
+                    self.psd in low_value,
+                ): ADJECTIVES.ATTIRE_ADJECTIVES["low_psd_high_dfc"],
+                (
+                    self.dfc in high_value,
+                    self.psd in high_value,
+                ): ADJECTIVES.ATTIRE_ADJECTIVES["high_psd_high_dfc"],
             },
             "weapon_assign_adjective_dict": {
-                (self.atk in low_value, self.dmg in low_value): ADJECTIVES.WEAPON_ADJECTIVES["low_atk_low_dmg"],
-                (self.atk in low_value, self.dmg in high_value): ADJECTIVES.WEAPON_ADJECTIVES["low_atk_high_dmg"],
-                (self.atk in high_value, self.dmg in low_value): ADJECTIVES.WEAPON_ADJECTIVES["high_atk_low_dmg"],
-                (self.atk in high_value, self.dmg in high_value): ADJECTIVES.WEAPON_ADJECTIVES["high_atk_high_dmg"],
+                (
+                    self.atk in low_value,
+                    self.dmg in low_value,
+                ): ADJECTIVES.WEAPON_ADJECTIVES["low_atk_low_dmg"],
+                (
+                    self.atk in low_value,
+                    self.dmg in high_value,
+                ): ADJECTIVES.WEAPON_ADJECTIVES["low_atk_high_dmg"],
+                (
+                    self.atk in high_value,
+                    self.dmg in low_value,
+                ): ADJECTIVES.WEAPON_ADJECTIVES["high_atk_low_dmg"],
+                (
+                    self.atk in high_value,
+                    self.dmg in high_value,
+                ): ADJECTIVES.WEAPON_ADJECTIVES["high_atk_high_dmg"],
             },
             "consumable_assign_adjective_dict": {
-                (self.health in low_value): ADJECTIVES.CONSUMABLE_ADJECTIVES["low_health"],
-                (self.health in high_value): ADJECTIVES.CONSUMABLE_ADJECTIVES["high_health"]
-            }
+                (self.health in low_value): ADJECTIVES.CONSUMABLE_ADJECTIVES[
+                    "low_health"
+                ],
+                (self.health in high_value): ADJECTIVES.CONSUMABLE_ADJECTIVES[
+                    "high_health"
+                ],
+            },
         }
         return dict_container
 
 
 @dataclass
 class PlayerCharacter:
-    name: str = ''
+    name: str = ""
     max_health: int = 0
     health: int = 0
     atk: int = 0
@@ -265,11 +371,13 @@ class PlayerCharacter:
 
     def print_player_character_stats(self):
         char_print("\nYour current stats are:")
-        char_print(f"Health: {self.health}/{self.max_health}"
-                   f"\nAttack: {self.atk}"
-                   f"\nDamage: {self.dmg}"
-                   f"\nDefence: {self.dfc}"
-                   f"\nPersuasion: {self.psd}")
+        char_print(
+            f"Health: {self.health}/{self.max_health}"
+            f"\nAttack: {self.atk}"
+            f"\nDamage: {self.dmg}"
+            f"\nDefence: {self.dfc}"
+            f"\nPersuasion: {self.psd}"
+        )
 
     def check_is_dead(self):
         if self.health < 1:
@@ -280,7 +388,8 @@ class PlayerCharacter:
     def run_death_sequence():
         char_print(
             "\nClutching at your chest, your hands come away soaked in blood. Blinking, you stagger backwards and"
-            " keel over. Then, the world turns black.")
+            " keel over. Then, the world turns black."
+        )
         char_input("\nYour story has ended. Enter anything to exit.")
 
 
