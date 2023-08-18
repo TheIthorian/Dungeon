@@ -1,12 +1,12 @@
-from database import (
+from entities import (
     PlayerCharacter,
     PlayerInventory,
     Item,
     player_character,
     player_inventory,
-    char_print,
-    char_input,
 )
+
+from display import char_input, char_print
 
 
 class InventoryLoop:

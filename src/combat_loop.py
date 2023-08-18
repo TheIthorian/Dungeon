@@ -1,4 +1,11 @@
-from database import Enemy, PlayerCharacter, player_character, char_print, char_input
+from entities import (
+    PlayerCharacter,
+    player_character,
+    Enemy,
+)
+
+from display import char_print, char_input
+
 from inventory_loop import LootLoop
 from random import randint
 from constants import THREAT_RESPONSE, COMBAT_TEXT

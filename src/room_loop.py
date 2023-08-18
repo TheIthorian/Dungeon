@@ -1,5 +1,8 @@
-from database import Sector, PlayerCharacter, player_character, char_print, char_input
 from random import randint, choice
+from time import sleep
+
+from entities import PlayerCharacter, player_character, Sector
+
 from combat_loop import CombatLoop
 from event_behaviours import (
     PositiveEvents,
@@ -10,7 +13,9 @@ from event_behaviours import (
 )
 from inventory_loop import LootLoop, InventoryLoop
 from constants import SECTOR_INTRODUCTION_TEXT
-from time import sleep
+
+from display import char_input, char_print
+
 
 sector_counter = 0
 

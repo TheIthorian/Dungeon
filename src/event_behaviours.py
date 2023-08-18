@@ -5,15 +5,18 @@ from constants import (
     EXPLORE_SPECIAL_EVENTS,
     REST_SPECIAL_EVENTS,
 )
-from database import (
+
+from entities import (
     PlayerCharacter,
     PlayerInventory,
     player_character,
     player_inventory,
-    char_print,
-    char_input,
 )
-from inventory_loop import LootLoop, InventoryLoop
+
+from display import char_input, char_print
+
+
+from inventory_loop import LootLoop
 from dataclasses import dataclass
 from random import choice, randint
 from combat_loop import CombatLoop

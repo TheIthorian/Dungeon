@@ -1,21 +1,3 @@
-class ENEMY_LISTS:
-    SIZE_LIST = ["small", "medium", "large"]
-    CATEGORY_LIST = ["animal", "humanoid", "undead"]
-    RARITY_LIST = ["common", "rare", "boss"]
-
-
-class ENEMY_NAMES:
-    SMALL_ANIMAL = ["rat", "mosquito", "toad", "salamander", "spider"]
-    MEDIUM_ANIMAL = ["hound", "panther", "wolf", "raptor"]
-    LARGE_ANIMAL = ["bear", "crocodile", "lion", "bear", "scarab", "lizard"]
-    SMALL_HUMANOID = ["goblin", "gnome", "halfling", "dwarf", "fairy"]
-    MEDIUM_HUMANOID = ["human", "elf", "orc", "drow"]
-    LARGE_HUMANOID = ["troll", "ogre", "golem", "minotaur", "giant", "centaur"]
-    SMALL_UNDEAD = ["tomb-snake", "corpse-fly", "ghoul", "spirit"]
-    MEDIUM_UNDEAD = ["zombie", "wraith", "skeleton", "wight", "draugr"]
-    LARGE_UNDEAD = ["bone-giant", "flesh-golem"]
-
-
 ITEM_TYPES_LIST = ["attire", "weapon", "consumable"]
 
 
@@ -23,16 +5,6 @@ class ITEM_NAMES:
     WEAPON_NAMES_LIST = ["sword", "axe", "mace", "hammer", "spear"]
     ATTIRE_NAMES_LIST = ["armour", "cuirass", "garb", "hauberk", "raiment"]
     CONSUMABLE_NAMES_LIST = ["loaf", "broth", "meal", "soup", "porridge"]
-
-
-SECTOR_LIST = ["caves", "tombs", "sewers", "dungeons"]
-
-
-class SECTOR_WEIGHTS:
-    CAVES = (15, 4, 1)
-    TOMBS = (1, 1, 18)
-    SEWERS = (9, 3, 8)
-    DUNGEONS = (6, 7, 6)
 
 
 class ADJECTIVES:
