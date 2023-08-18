@@ -13,7 +13,7 @@ class SECTOR_WEIGHTS:
 
 @dataclass
 class Sector:
-    current_sector: str = ""
+    name: str = ""
     current_weights: tuple = (1, 1, 1)
 
     @staticmethod
@@ -26,5 +26,5 @@ class Sector:
         }
 
     def roll_sector(self):
-        self.current_sector = choice(SECTOR_LIST)
-        self.current_weights = self._get_weights_dict()[self.current_sector]
+        self.name = choice(list(filter(lambda x: x != self.name, SECTOR_LIST)))
+        self.current_weights = self._get_weights_dict()[self.name]

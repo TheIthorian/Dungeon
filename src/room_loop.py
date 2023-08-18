@@ -29,31 +29,31 @@ class ManageSector:
 
     @staticmethod
     def roll_new_sector():
-        previous_sector = sector.current_sector
+        previous_sector = sector.name
         sector.roll_sector()
-        while previous_sector == sector.current_sector:
+        while previous_sector == sector.name:
             sector.roll_sector()
         if not previous_sector:
             char_print(
-                f"\nThe daylight fades away behind you. You have entered the {sector.current_sector}."
+                f"\nThe daylight fades away behind you. You have entered the {sector.name}."
             )
-            if sector.current_sector == "caves":
+            if sector.name == "caves":
                 char_print(SECTOR_INTRODUCTION_TEXT.CAVES)
-            elif sector.current_sector == "tombs":
+            elif sector.name == "tombs":
                 char_print(SECTOR_INTRODUCTION_TEXT.TOMBS)
-            elif sector.current_sector == "dungeons":
+            elif sector.name == "dungeons":
                 char_print(SECTOR_INTRODUCTION_TEXT.DUNGEONS)
             else:
                 char_print(SECTOR_INTRODUCTION_TEXT.SEWERS)
         else:
             char_print(
-                f"\nLeaving the {previous_sector} behind, you enter the {sector.current_sector}."
+                f"\nLeaving the {previous_sector} behind, you enter the {sector.name}."
             )
-            if sector.current_sector == "caves":
+            if sector.name == "caves":
                 char_print(SECTOR_INTRODUCTION_TEXT.CAVES)
-            elif sector.current_sector == "tombs":
+            elif sector.name == "tombs":
                 char_print(SECTOR_INTRODUCTION_TEXT.TOMBS)
-            elif sector.current_sector == "dungeons":
+            elif sector.name == "dungeons":
                 char_print(SECTOR_INTRODUCTION_TEXT.DUNGEONS)
             else:
                 char_print(SECTOR_INTRODUCTION_TEXT.SEWERS)
@@ -62,10 +62,10 @@ class ManageSector:
     def enter_room():
         global sector_counter
         sector_counter += 1
-        char_print(f"\nYou enter ROOM {sector_counter} of the {sector.current_sector}.")
+        char_print(f"\nYou enter ROOM {sector_counter} of the {sector.name}.")
 
     def run_room_loop(self):
-        if not sector.current_sector:
+        if not sector.name:
             self.roll_new_sector()
         global sector_counter
         if sector_counter > randint(10, 20):
