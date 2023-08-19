@@ -16,3 +16,39 @@ class Test_append_to_inventory:
 
         # Then
         assert player_inventory.current_equipment["Item"] == item
+
+
+class Test_remove_random_item:
+    def test_removes_equipment_from_inventory(self):
+        # Given
+        player_inventory = PlayerInventory()
+
+        item1 = Item(
+            name="item1",
+            type="weapon",
+        )
+
+        item2 = Item(
+            name="item2",
+            type="weapon",
+        )
+
+        player_inventory.current_equipment = {
+            "Item": item1,
+            "Item2": item2,
+        }
+
+        player = PlayerCharacter(
+            name="player",
+            atk=10,
+            dfc=10,
+            dmg=10,
+            psd=10,
+        )
+
+        # When
+        player_inventory.remove_random_item(player)
+
+        # Then
+        assert player_inventory.current_equipment["Item1"] == None
+        assert player_inventory.current_equipment["Item2"] == item2
