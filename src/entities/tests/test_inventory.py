@@ -3,6 +3,16 @@ from entities.player import PlayerCharacter
 from entities.item import Item
 
 
+def make_player(self):
+    return PlayerCharacter(
+        name="player",
+        atk=10,
+        dfc=10,
+        dmg=10,
+        psd=10,
+    )
+
+
 class Test_append_to_inventory:
     def test_adds_equipment_to_inventory(self):
         # Given
@@ -22,29 +32,13 @@ class Test_append_to_inventory:
 class Test_remove_random_item:
     def test_removes_equipment_from_inventory(self):
         # Given
-        item1 = Item(
-            name="item1",
-            type="weapon",
-        )
-
-        item2 = Item(
-            name="item2",
-            type="weapon",
-        )
+        item1 = Item(name="item1", type="weapon")
+        item2 = Item(name="item2", type="weapon")
 
         player_inventory = PlayerInventory()
-        player_inventory.current_equipment = {
-            "Item": item1,
-            "Item2": item2,
-        }
+        player_inventory.current_equipment = {"Item": item1, "Item2": item2}
 
-        player = PlayerCharacter(
-            name="player",
-            atk=10,
-            dfc=10,
-            dmg=10,
-            psd=10,
-        )
+        player = make_player()
 
         # When
         player_inventory.remove_random_item(player)
@@ -55,24 +49,12 @@ class Test_remove_random_item:
 
     def test_unequips_item(self):
         # Given
-        item1 = Item(
-            name="item1",
-            type="weapon",
-            is_equipped=True,
-        )
+        item1 = Item(name="item1", type="weapon", is_equipped=True)
 
         player_inventory = PlayerInventory()
-        player_inventory.current_equipment = {
-            "Item": item1,
-        }
+        player_inventory.current_equipment = {"Item": item1}
 
-        player = PlayerCharacter(
-            name="player",
-            atk=10,
-            dfc=10,
-            dmg=10,
-            psd=10,
-        )
+        player = make_player()
 
         # When
         player_inventory.remove_random_item(player)
@@ -93,17 +75,9 @@ class Test_remove_random_item:
         )
 
         player_inventory = PlayerInventory()
-        player_inventory.current_equipment = {
-            "Item": item1,
-        }
+        player_inventory.current_equipment = {"Item": item1}
 
-        player = PlayerCharacter(
-            name="player",
-            atk=10,
-            dfc=10,
-            dmg=10,
-            psd=10,
-        )
+        player = make_player()
 
         # When
         player_inventory.remove_random_item(player)
@@ -127,17 +101,9 @@ class Test_remove_random_item:
         )
 
         player_inventory = PlayerInventory()
-        player_inventory.current_equipment = {
-            "Item": item1,
-        }
+        player_inventory.current_equipment = {"Item": item1}
 
-        player = PlayerCharacter(
-            name="player",
-            atk=10,
-            dfc=10,
-            dmg=10,
-            psd=10,
-        )
+        player = make_player()
 
         # When
         player_inventory.remove_random_item(player)
