@@ -1,4 +1,4 @@
-from .sector import Sector
+from .sector import Sector, SectorType
 from .player import PlayerCharacter
 from .inventory import PlayerInventory
 from .item import Item
