@@ -5,8 +5,10 @@ name = "pypi"
 
 [scripts]
 game = "main.py"
+test = "pytest"
 
 [packages]
+pytest = "*"
 
 [dev-packages]
 
