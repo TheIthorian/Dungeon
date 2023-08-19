@@ -9,8 +9,6 @@ from constants import (
 from entities import (
     PlayerCharacter,
     PlayerInventory,
-    player_character,
-    player_inventory,
 )
 
 from display import char_input, char_print
@@ -19,11 +17,14 @@ from display import char_input, char_print
 from inventory_loop import LootLoop
 from dataclasses import dataclass
 from random import choice, randint
-from combat_loop import CombatLoop
+from game_loops.combat import CombatLoop
 
 
 class PositiveEvents:
-    def __init__(self):
+    player: PlayerCharacter
+
+    def __init__(self, player: PlayerCharacter):
+        self.player = player
         self.pos_events_dict = {
             POSITIVE_EVENTS.GAIN_ITEM: "gain_item_effect",
             POSITIVE_EVENTS.GAIN_HEALTH: "gain_health_effect",
@@ -38,7 +39,7 @@ class PositiveEvents:
         text, effect = choice(list(self.pos_events_dict.items()))
         char_print(text)
 
-        def get_effect(player: PlayerCharacter = player_character):
+        def get_effect(player: PlayerCharacter):
             if effect == "gain_item_effect":
                 LootLoop()
             elif effect == "gain_health_effect":
@@ -69,11 +70,14 @@ class PositiveEvents:
             else:
                 pass
 
-        get_effect()
+        get_effect(self.player)
 
 
 class NegativeEvents:
-    def __init__(self):
+    player: PlayerCharacter
+
+    def __init__(self, player: PlayerCharacter):
+        self.player = player
         self.neg_events_dict = {
             NEGATIVE_EVENTS.LOSE_HEALTH: "lose_health_effect",
             NEGATIVE_EVENTS.LOSE_MAX_HEALTH: "lose_max_health_effect",
@@ -86,7 +90,7 @@ class NegativeEvents:
         text, effect = choice(list(self.neg_events_dict.items()))
         char_print(text)
 
-        def get_effect(player: PlayerCharacter = player_character):
+        def get_effect(player: PlayerCharacter):
             if effect == "lose_health_effect":
                 lose_health_amount = randint(0, 2)
                 player.health -= lose_health_amount
@@ -111,11 +115,14 @@ class NegativeEvents:
             else:
                 pass
 
-        get_effect()
+        get_effect(self.player)
 
 
 class RoomSpecialEvents:
-    def __init__(self):
+    player: PlayerCharacter
+
+    def __init__(self, player: PlayerCharacter):
+        self.player = player
         self.special_events_dict = {
             ROOM_SPECIAL_EVENTS.AMBUSH: "ambush_effect",
             ROOM_SPECIAL_EVENTS.HERO: "hero_effect",
@@ -128,7 +135,7 @@ class RoomSpecialEvents:
         text, effect = choice(list(self.special_events_dict.items()))
         char_print(text)
 
-        def get_effect(player: PlayerCharacter = player_character):
+        def get_effect(player: PlayerCharacter):
             if effect == "ambush_effect":
                 instant_damage = max(1, randint(3, 7) - player.dfc)
                 player.health -= instant_damage
@@ -222,12 +229,18 @@ class RoomSpecialEvents:
                         f" {player.health} health out of a maximum of {player.max_health}!"
                     )
 
-        get_effect()
+        get_effect(self.player)
 
 
 @dataclass
 class ExploreSpecialEvents:
-    def __init__(self):
+    player: PlayerCharacter
+    inventory: PlayerInventory
+
+    def __init__(self, player: PlayerCharacter, inventory: PlayerInventory):
+        self.player = player
+        self.inventory = inventory
+
         self.special_events_dict = {
             EXPLORE_SPECIAL_EVENTS.DARKNESS: "darkness_effect",
             EXPLORE_SPECIAL_EVENTS.BUMP: "bump_effect",
@@ -241,8 +254,8 @@ class ExploreSpecialEvents:
         char_print(text)
 
         def get_effect(
-            player: PlayerCharacter = player_character,
-            inventory: PlayerInventory = player_inventory,
+            player: PlayerCharacter,
+            inventory: PlayerInventory,
         ):
             if effect == "darkness_effect":
                 player_response = char_input(
@@ -323,12 +336,18 @@ class ExploreSpecialEvents:
                 else:
                     char_print("\nYou politely decline. The orc looks dejected.")
 
-        get_effect()
+        get_effect(self.player, self.inventory)
 
 
 @dataclass
 class RestSpecialEvents:
-    def __init__(self):
+    player: PlayerCharacter
+    inventory: PlayerInventory
+
+    def __init__(self, player: PlayerCharacter, inventory: PlayerInventory):
+        self.player = player
+        self.inventory = inventory
+
         self.special_events_dict = {
             REST_SPECIAL_EVENTS.VISITOR: "visitor_effect",
             REST_SPECIAL_EVENTS.BAD_SLEEP: "bad_sleep_effect",
@@ -344,8 +363,8 @@ class RestSpecialEvents:
         char_print(text)
 
         def get_effect(
-            player: PlayerCharacter = player_character,
-            inventory: PlayerInventory = player_inventory,
+            player: PlayerCharacter,
+            inventory: PlayerInventory,
         ):
             if effect == "visitor_effect":
                 player_response = char_input(
@@ -476,4 +495,4 @@ class RestSpecialEvents:
                     player.max_health += 3
                     player.cap_health_at_max()
 
-            get_effect()
+        get_effect(self.player, self.inventory)
